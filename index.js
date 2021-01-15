@@ -7,7 +7,7 @@ class RangeValidator {
     if (typeof newFrom !== 'number') {
       throw new TypeError('Parametr no valid')
     }
-    if (newFrom < 0) {
+    if (newFrom < this.to) {
       throw new RangeError();
     }
     this._from = newFrom;
@@ -21,7 +21,7 @@ class RangeValidator {
     if (typeof newTo !== 'number') {
       throw new TypeError('Parametr no valid')
     }
-    if (newTo < 0) {
+    if (newTo < this.from) {
       throw new RangeError();
     }
     this._to = newTo;
@@ -32,14 +32,14 @@ class RangeValidator {
   }
 
   get range() {
-    const newArr = [];
-    newArr[0] = this.from;
-    newArr[1] = this.to;
+    const newArr = [this.from, this.to];
     return newArr;
   }
   validate(value) {
-    return this.from <= value && value <= this.to;
-    
+    if(this.from <= value && value <= this.to) {
+      return value;
+    }
+    throw RangeError();
   }
 }
 
